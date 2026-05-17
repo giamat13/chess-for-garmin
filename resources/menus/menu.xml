@@ -1,0 +1,7 @@
+<menu id="MainMenu" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <menu-item id="new_game" label="@Strings.menu_new_game" />
+    <menu-item id="elo_600" label="@Strings.menu_elo_600" />
+    <menu-item id="elo_900" label="@Strings.menu_elo_900" />
+    <menu-item id="elo_1200" label="@Strings.menu_elo_1200" />
+    <menu-item id="elo_1500" label="@Strings.menu_elo_1500" />
+</menu>
