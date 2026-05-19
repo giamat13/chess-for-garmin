@@ -207,8 +207,9 @@ class ChessGame {
 
         var bestMove = moves[0];
         var bestScore = side == CG_WHITE ? -CG_BIG : CG_BIG;
+        var maxMoves = moves.size() < 12 ? moves.size() : 12;
 
-        for (var i = 0; i < moves.size(); i += 1) {
+        for (var i = 0; i < maxMoves; i += 1) {
             var move = moves[i];
             var state = makeMove(move);
             var score = evaluate();
