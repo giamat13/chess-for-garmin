@@ -344,17 +344,116 @@ class chessView extends WatchUi.View {
             return;
         }
 
-        var text = pieceText(piece);
-        var font = Graphics.FONT_SMALL;
+        var color = piece > 0 ? Graphics.COLOR_WHITE : Graphics.COLOR_ORANGE;
+        dc.setColor(color, Graphics.COLOR_TRANSPARENT);
 
-        if (_cell >= 42) {
-            font = Graphics.FONT_LARGE;
-        } else if (_cell >= 30) {
-            font = Graphics.FONT_MEDIUM;
-        }
+        var absPiece = piece < 0 ? -piece : piece;
+        if (absPiece == CG_PAWN)        { drawPiecePawn(dc, x, y); }
+        else if (absPiece == CG_ROOK)   { drawPieceRook(dc, x, y); }
+        else if (absPiece == CG_KNIGHT) { drawPieceKnight(dc, x, y); }
+        else if (absPiece == CG_BISHOP) { drawPieceBishop(dc, x, y); }
+        else if (absPiece == CG_QUEEN)  { drawPieceQueen(dc, x, y); }
+        else                            { drawPieceKing(dc, x, y); }
+    }
 
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(x + (_cell / 2), y + (_cell / 2), font, text, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+    function drawPiecePawn(dc, x, y) as Void {
+        var c = _cell;
+        var cx = x + c / 2;
+        var headR = c * 13 / 100;
+        if (headR < 2) { headR = 2; }
+        dc.fillCircle(cx, y + c * 22 / 100, headR);
+        var stemW = c * 18 / 100;
+        if (stemW < 2) { stemW = 2; }
+        dc.fillRectangle(cx - stemW / 2, y + c * 36 / 100, stemW, c * 22 / 100);
+        dc.fillRectangle(x + c * 18 / 100, y + c * 60 / 100, c * 64 / 100, c * 30 / 100);
+    }
+
+    function drawPieceRook(dc, x, y) as Void {
+        var c = _cell;
+        var cx = x + c / 2;
+        var tx = x + c * 27 / 100;
+        var tw = c * 46 / 100;
+        dc.fillRectangle(x + c * 18 / 100, y + c * 72 / 100, c * 64 / 100, c * 22 / 100);
+        dc.fillRectangle(tx, y + c * 28 / 100, tw, c * 44 / 100);
+        var mw = c * 12 / 100;
+        if (mw < 2) { mw = 2; }
+        var mh = c * 18 / 100;
+        if (mh < 2) { mh = 2; }
+        var my = y + c * 10 / 100;
+        dc.fillRectangle(tx, my, mw, mh);
+        dc.fillRectangle(cx - mw / 2, my, mw, mh);
+        dc.fillRectangle(tx + tw - mw, my, mw, mh);
+    }
+
+    function drawPieceKnight(dc, x, y) as Void {
+        var c = _cell;
+        var cx = x + c / 2;
+        dc.fillRectangle(x + c * 18 / 100, y + c * 72 / 100, c * 64 / 100, c * 22 / 100);
+        dc.fillPolygon([
+            [cx - c * 20 / 100, y + c * 72 / 100],
+            [cx + c * 10 / 100, y + c * 72 / 100],
+            [cx + c * 28 / 100, y + c * 30 / 100],
+            [cx + c * 20 / 100, y + c * 10 / 100],
+            [cx - c *  5 / 100, y + c * 18 / 100],
+            [cx - c * 20 / 100, y + c * 40 / 100],
+        ]);
+        var headR = c * 12 / 100;
+        if (headR < 2) { headR = 2; }
+        dc.fillCircle(cx + c * 10 / 100, y + c * 20 / 100, headR);
+    }
+
+    function drawPieceBishop(dc, x, y) as Void {
+        var c = _cell;
+        var cx = x + c / 2;
+        dc.fillRectangle(x + c * 18 / 100, y + c * 72 / 100, c * 64 / 100, c * 22 / 100);
+        dc.fillRectangle(x + c * 28 / 100, y + c * 58 / 100, c * 44 / 100, c * 14 / 100);
+        dc.fillPolygon([
+            [cx,                y + c * 14 / 100],
+            [cx + c * 18 / 100, y + c * 35 / 100],
+            [cx + c * 14 / 100, y + c * 58 / 100],
+            [cx - c * 14 / 100, y + c * 58 / 100],
+            [cx - c * 18 / 100, y + c * 35 / 100],
+        ]);
+        var ballR = c * 8 / 100;
+        if (ballR < 2) { ballR = 2; }
+        dc.fillCircle(cx, y + c * 10 / 100, ballR);
+    }
+
+    function drawPieceQueen(dc, x, y) as Void {
+        var c = _cell;
+        var cx = x + c / 2;
+        dc.fillRectangle(x + c * 14 / 100, y + c * 72 / 100, c * 72 / 100, c * 22 / 100);
+        dc.fillPolygon([
+            [cx - c * 22 / 100, y + c * 72 / 100],
+            [cx + c * 22 / 100, y + c * 72 / 100],
+            [cx + c * 16 / 100, y + c * 30 / 100],
+            [cx - c * 16 / 100, y + c * 30 / 100],
+        ]);
+        var ballR = c * 7 / 100;
+        if (ballR < 2) { ballR = 2; }
+        var crownY = y + c * 18 / 100;
+        dc.fillRectangle(cx - c * 16 / 100, crownY, c * 32 / 100, c * 14 / 100);
+        dc.fillCircle(cx, crownY, ballR);
+        dc.fillCircle(cx - c * 16 / 100, crownY + c * 6 / 100, ballR);
+        dc.fillCircle(cx + c * 16 / 100, crownY + c * 6 / 100, ballR);
+    }
+
+    function drawPieceKing(dc, x, y) as Void {
+        var c = _cell;
+        var cx = x + c / 2;
+        dc.fillRectangle(x + c * 14 / 100, y + c * 72 / 100, c * 72 / 100, c * 22 / 100);
+        dc.fillPolygon([
+            [cx - c * 22 / 100, y + c * 72 / 100],
+            [cx + c * 22 / 100, y + c * 72 / 100],
+            [cx + c * 14 / 100, y + c * 35 / 100],
+            [cx - c * 14 / 100, y + c * 35 / 100],
+        ]);
+        var cw = c * 14 / 100;
+        if (cw < 2) { cw = 2; }
+        var hh = c * 12 / 100;
+        if (hh < 2) { hh = 2; }
+        dc.fillRectangle(cx - cw / 2, y + c * 10 / 100, cw, c * 30 / 100);
+        dc.fillRectangle(cx - c * 15 / 100, y + c * 18 / 100, c * 30 / 100, hh);
     }
 
     function drawLegalTarget(dc, square, x, y) as Void {
@@ -365,24 +464,6 @@ class chessView extends WatchUi.View {
         } else {
             dc.drawRectangle(x + 3, y + 3, _cell - 6, _cell - 6);
         }
-    }
-
-    function pieceText(piece) {
-        var absPiece = piece < 0 ? -piece : piece;
-
-        if (absPiece == CG_PAWN) {
-            return piece > 0 ? "♙" : "♟";
-        } else if (absPiece == CG_KNIGHT) {
-            return piece > 0 ? "♘" : "♞";
-        } else if (absPiece == CG_BISHOP) {
-            return piece > 0 ? "♗" : "♝";
-        } else if (absPiece == CG_ROOK) {
-            return piece > 0 ? "♖" : "♜";
-        } else if (absPiece == CG_QUEEN) {
-            return piece > 0 ? "♕" : "♛";
-        }
-
-        return piece > 0 ? "♔" : "♚";
     }
 
     function isLegalTarget(square) {
