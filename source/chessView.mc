@@ -353,9 +353,7 @@ class chessView extends WatchUi.View {
             font = Graphics.FONT_MEDIUM;
         }
 
-        var color = piece > 0 ? Graphics.COLOR_WHITE : Graphics.COLOR_ORANGE;
-
-        dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(x + (_cell / 2), y + (_cell / 2), font, text, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 
@@ -373,18 +371,18 @@ class chessView extends WatchUi.View {
         var absPiece = piece < 0 ? -piece : piece;
 
         if (absPiece == CG_PAWN) {
-            return piece > 0 ? "P" : "p";
+            return piece > 0 ? "♙" : "♟";
         } else if (absPiece == CG_KNIGHT) {
-            return piece > 0 ? "N" : "n";
+            return piece > 0 ? "♘" : "♞";
         } else if (absPiece == CG_BISHOP) {
-            return piece > 0 ? "B" : "b";
+            return piece > 0 ? "♗" : "♝";
         } else if (absPiece == CG_ROOK) {
-            return piece > 0 ? "R" : "r";
+            return piece > 0 ? "♖" : "♜";
         } else if (absPiece == CG_QUEEN) {
-            return piece > 0 ? "Q" : "q";
+            return piece > 0 ? "♕" : "♛";
         }
 
-        return piece > 0 ? "K" : "k";
+        return piece > 0 ? "♔" : "♚";
     }
 
     function isLegalTarget(square) {
